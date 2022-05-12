@@ -140,7 +140,7 @@ class _WallateScreenState extends State<WallateScreen> {
                     children: [
                       Container(
                         child: Text(
-                          "Your Wallate amount is ",
+                          "Your Wallet amount is ",
                           style: TextStyle(
                               fontSize: 17,
                               fontStyle: FontStyle.italic,
