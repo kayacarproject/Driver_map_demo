@@ -177,87 +177,90 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Login Page",
-          style: TextStyle(color: Colors.white),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Login Page",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      body: FutureBuilder(
-          future: _initializeFirebase(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return SingleChildScrollView(
-                child: Center(
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black26)),
-                          child: TextFormField(
-                            controller: _email,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                                hintText: "enter email",
-                                border: InputBorder.none),
+        body: FutureBuilder(
+            future: _initializeFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SingleChildScrollView(
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
+                            child: TextFormField(
+                              controller: _email,
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                  hintText: "enter email",
+                                  border: InputBorder.none),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black26)),
-                          child: TextFormField(
-                            controller: _password,
-                            keyboardType: TextInputType.visiblePassword,
-                            textInputAction: TextInputAction.done,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                hintText: "enter Password",
-                                border: InputBorder.none),
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        InkWell(
-
-                          onTap: () async {
-
-
-
-                            User? user = await LoginUsingEmailandPassword(
-                                _email.text.toString(),
-                                _password.text.toString(),
-                                context);
-                          },
-
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.blue,
-                            child: Text("Login"),
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
+                            child: TextFormField(
+                              controller: _password,
+                              keyboardType: TextInputType.visiblePassword,
+                              textInputAction: TextInputAction.done,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  hintText: "enter Password",
+                                  border: InputBorder.none),
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 15,
+                          ),
+                          InkWell(
+
+                            onTap: () async {
+
+
+
+                              User? user = await LoginUsingEmailandPassword(
+                                  _email.text.toString(),
+                                  _password.text.toString(),
+                                  context);
+                            },
+
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.blue,
+                              child: Text("Login"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
-    ));
+            }),
+      )),
+    );
   }
 }

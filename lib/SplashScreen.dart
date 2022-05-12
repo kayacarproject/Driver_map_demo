@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Constant/MySharedPreferences.dart';
 import 'LoginPage.dart';
 import 'MessagePage.dart';
+import '../Constant/MySharedPreferences.dart';
 import '../main.dart';
+import 'SimpleMarkerAnimation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -44,21 +47,64 @@ class _SplashScreenState extends State<SplashScreen> {
      print("userId______________"+uId.toString());
      print("userId______________"+getName.toString());
 
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => SimpleMarkerAnimationExample(),
+      ),
+          (route) => false,
+    );
 
+  /*  if(getLogin == "true"){
 
-    if(getLogin == "true"){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MessagePage(getName.toString(), getEmail, getPassword, getGender, getCity, getBirthdate, getMobile,uId.toString()),));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => SimpleMarkerAnimationExample(getName.toString(), getEmail.toString(), getPassword, getGender, getCity, getBirthdate, getMobile, uId.toString()),
+        ),
+            (route) => false,
+      );
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => SimpleMarkerAnimationExample(getName.toString(), getEmail.toString(), getPassword, getGender, getCity, getBirthdate, getMobile, uId.toString())),);
     }else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
-    }
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => LoginPage(),
+        ),
+            (route) => false,
+      );
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
+    }*/
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      body: Center(
-        child: Text("WelCome", style: TextStyle(fontSize: 50, color: Colors.blue),),
-      ),
-    ));
+    Timer(
+        Duration(seconds: 3),
+            () => inItPref(context));
+
+
+    /*var assetsImage = new AssetImage(
+        'images/new_logo.png'); //<- Creates an object that fetches an image.
+    var image = new Image(
+        image: assetsImage,
+        height:300); *///<- Creates a widget that displays an image.
+
+    var text = new Text("Welcome Driver", style: TextStyle(fontSize: 20, color: Colors.purple),);
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+        home: Scaffold(
+
+          body: Container(
+            decoration: new BoxDecoration(color: Colors.white),
+            child: new Center(
+              child: text,
+            ),
+          ), //<- place where the image appears
+        ),
+
+    );
+
   }
 }

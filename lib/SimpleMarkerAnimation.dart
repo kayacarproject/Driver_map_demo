@@ -208,67 +208,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_animarker/flutter_map_marker_animation.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:map_demo/WallateScreen.dart';
 
 //Setting dummies values
 // const kStartPosition = LatLng(18.488213, -69.959186);
-const kStartPosition = LatLng(23.080245599999998, 72.5243763);
-var kSantoDomingo = CameraPosition(target: kStartPosition, zoom: 14);
+// const kStartPosition = LatLng(23.026980,72.674570);
+// const kStartPosition = LatLng(23.0229269, 72.6471324);
+const kStartPosition = LatLng(23.028090, 72.545711);
+// const kStartPosition = LatLng(23.080245599999998, 72.5243763);
+var kSantoDomingo = CameraPosition(target: kStartPosition, zoom: 15);
 var kMarkerId = MarkerId('MarkerId1');
 var kDuration = Duration(milliseconds: 800);
-/*const kLocations = [
-  kStartPosition,
-  LatLng(18.488101, -69.957995),
-  LatLng(18.489210, -69.952459),
-  LatLng(18.487307, -69.952759),
-  LatLng(18.487308, -69.952759),
-];*/
+
 var kLocations = [];
-/*var kLocations = [
-  kStartPosition,
-LatLng(23.08017, 72.52468),
-LatLng(23.07962, 72.52452),
-LatLng(23.07938, 72.52543),
-LatLng(23.08047, 72.52576),
-LatLng(23.08033, 72.52626),
-LatLng(23.08232, 72.52684),
-LatLng(23.08366, 72.52723),
-LatLng(23.08464, 72.52761),
-LatLng(23.08545, 72.52782),
-LatLng(23.08549, 72.52766),
-LatLng(23.08668, 72.52798),
-LatLng(23.08644, 72.52838),
-LatLng(23.08638, 72.52862),
-LatLng(23.08631, 72.52931),
-LatLng(23.08623, 72.53012),
-LatLng(23.08619, 72.53029),
-LatLng(23.0861, 72.53046),
-LatLng(23.08597, 72.53058),
-LatLng(23.0852, 72.53119),
-LatLng(23.08488, 72.53144),
-LatLng(23.08441, 72.53187),
-LatLng(23.08387, 72.53238),
-LatLng(23.08274, 72.53351),
-LatLng(23.08217, 72.53408),
-LatLng(23.08184, 72.53448),
-LatLng(23.08111, 72.53543),
-LatLng(23.08093, 72.5356),
-LatLng(23.08001, 72.53607),
-LatLng(23.07956, 72.53634),
-LatLng(23.07873, 72.53692),
-LatLng(23.07792, 72.53749),
-LatLng(23.07712, 72.53807),
-LatLng(23.0767, 72.53841),
-LatLng(23.07669, 72.53843),
-LatLng(23.07668, 72.53846),
-LatLng(23.07666, 72.53848),
-LatLng(23.0766, 72.53849),
-LatLng(23.07655, 72.53847),
-LatLng(23.07652, 72.53841),
-LatLng(23.07653, 72.53835)
-];*/
 
 class SimpleMarkerAnimationExample extends StatefulWidget {
   @override
@@ -278,76 +234,74 @@ class SimpleMarkerAnimationExample extends StatefulWidget {
 
 class SimpleMarkerAnimationExampleState
     extends State<SimpleMarkerAnimationExample> {
-
-
-  GoogleMapController? mapController; //contrller for Google map
+  GoogleMapController? mapController;
   PolylinePoints polylinePoints = PolylinePoints();
 
   String googleAPiKey = "AIzaSyClF9LiY6ePi8NUmO1VG8x-wFURFVCyNrU";
 
-  Set<Marker> marker = Set(); //markers for google map
+  Set<Marker> marker = Set();
 
-  Map<PolylineId, Polyline> polylines = {}; //polylines to show direction
+  Map<PolylineId, Polyline> polylines = {};
 
-  LatLng startLocation = const LatLng(23.080245599999998, 72.5243763);
-  LatLng endLocation = const LatLng(23.07652, 72.53832899999999);
+  LatLng startLocation = const LatLng(23.028090, 72.545711);
+  LatLng endLocation = const LatLng(23.027042, 72.508547);
+  // LatLng startLocation = const LatLng(23.080245599999998, 72.5243763);
+  // LatLng endLocation = const LatLng(23.07652, 72.53832899999999);
   late LatLngBounds bounds;
-
-
 
   final markers = <MarkerId, Marker>{};
   final controller = Completer<GoogleMapController>();
 
-
   void check(CameraUpdate u, GoogleMapController c) async {
-    c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: startLocation)));
-    // mapController?.animateCamera(u);
-    LatLngBounds l1=await c.getVisibleRegion();
-    LatLngBounds l2=await c.getVisibleRegion();
+    c.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(target: startLocation)));
+
+    LatLngBounds l1 = await c.getVisibleRegion();
+    LatLngBounds l2 = await c.getVisibleRegion();
     print(l1.toString());
     print(l2.toString());
-    if(l1.southwest.latitude==-90 ||l2.southwest.latitude==-90)
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90)
       check(u, c);
   }
 
   getDirections(GoogleMapController gController) async {
-  // getDirections() async {
     List<LatLng> polylineCoordinates = [];
 
-    var url = Uri.parse('http://kayaapi.appsara.in/KayaService.svc/getgoogledirections/${startLocation.latitude}/${startLocation.longitude}/${endLocation.latitude}/${endLocation.longitude}/');
+    var url = Uri.parse(
+        'http://kayaapi.appsara.in/KayaService.svc/getgoogledirections/${startLocation.latitude}/${startLocation.longitude}/${endLocation.latitude}/${endLocation.longitude}/');
+    print(
+        "url____http://kayaapi.appsara.in/KayaService.svc/getgoogledirections/${startLocation.latitude}/${startLocation.longitude}/${endLocation.latitude}/${endLocation.longitude}/");
     var response = await http.get(url);
     var json = jsonDecode(response.body);
 
-    var latLongLis = json["googleresponse"]["routes"][0]["overview_polyline"]["points"];
-    print("_____"+latLongLis);
+    var latLongLis =
+        json["googleresponse"]["routes"][0]["overview_polyline"]["points"];
+    print("_____" + latLongLis);
 
-    List<PointLatLng> points = NetworkUtil().decodeEncodedPolyline(json["googleresponse"]["routes"][0]["overview_polyline"]["points"]);
+    List<PointLatLng> points = NetworkUtil().decodeEncodedPolyline(
+        json["googleresponse"]["routes"][0]["overview_polyline"]["points"]);
     int i = 0;
     kLocations.clear();
     points.forEach((element) {
-      // print("_____________"+element.latitude.toString());
       polylineCoordinates.add(LatLng(element.latitude, element.longitude));
       print("LatLng(${element.latitude}, ${element.longitude}");
-      if((points.length -1) == i)
-      {
-        // print("LatLng(${element.latitude}, ${element.longitude}");
+      if ((points.length - 1) == i) {
         setState(() {
-        addPolyLine(polylineCoordinates);
+          addPolyLine(polylineCoordinates);
         });
       }
 
       kLocations.add(LatLng(element.latitude, element.longitude));
-      if((points.length -1) == i)
-      {
-        print("=-=-=====================>"+kLocations.length.toString());
+      if ((points.length - 1) == i) {
+        print("=-=-=====================>" + kLocations.length.toString());
         setState(() {
-          var stream = Stream.periodic(kDuration, (count) => kLocations[count]).take(kLocations.length);
+          var stream = Stream.periodic(kDuration, (count) => kLocations[count])
+              .take(kLocations.length);
           stream.forEach((value) => newLocationUpdate(value));
           controller.complete(gController);
-          // stream = Stream.periodic(kDuration, (count) => kLocations[count])
-          //     .take(kLocations.length);
-        });}
-      i=i+1;
+        });
+      }
+      i = i + 1;
     });
   }
 
@@ -360,66 +314,86 @@ class SimpleMarkerAnimationExampleState
       width: 4,
     );
     polylines[id] = polyline;
-    setState(() {
-    });
-
-
+    setState(() {});
   }
+
   @override
   void initState() {
     super.initState();
     bounds = LatLngBounds(southwest: endLocation, northeast: startLocation);
-    marker.add(Marker( //add start location marker
+    marker.add(Marker(
       markerId: MarkerId(startLocation.toString()),
-      position: startLocation, //position of marker
-      infoWindow: InfoWindow( //popup info
+      position: startLocation,
+      infoWindow: InfoWindow(
         title: 'Starting Point ',
         snippet: 'Start Marker',
       ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      icon: BitmapDescriptor.defaultMarker,
     ));
 
-    marker.add(Marker( //add distination location marker
+    marker.add(Marker(
       markerId: MarkerId(endLocation.toString()),
-      position: endLocation, //position of marker
-      infoWindow: InfoWindow( //popup info
+      position: endLocation,
+      infoWindow: InfoWindow(
         title: 'Destination Point ',
         snippet: 'Destination Marker',
       ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      icon: BitmapDescriptor.defaultMarker,
     ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Google Maps Markers Animation Example',
-      home: Animarker(
-        shouldAnimateCamera: true,
-
-        rippleRadius: 0.2,
-        useRotation: true,
-        mapId: controller.future
-            .then<int>((value) => value.mapId), //Grab Google Map Id
-        markers: markers.values.toSet(),
-        child: GoogleMap(
-            mapType: MapType.normal,
-            markers: marker,
-            initialCameraPosition: kSantoDomingo,
-            polylines: Set<Polyline>.of(polylines.values),
-            onMapCreated: (gController) {
-              getDirections(gController);
-            }),
+    return SafeArea(
+      child: Scaffold(
+        body: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Google Maps Markers Animation Example',
+          home: Animarker(
+            shouldAnimateCamera: true,
+            zoom: 15,
+            rippleRadius: 0.2,
+            useRotation: true,
+            mapId: controller.future.then<int>((value) => value.mapId),
+            markers: markers.values.toSet(),
+            child: Stack(
+              children: [
+                GoogleMap(
+                    mapType: MapType.normal,
+                    markers: marker,
+                    initialCameraPosition: kSantoDomingo,
+                    polylines: Set<Polyline>.of(polylines.values),
+                    onMapCreated: (gController) {
+                      getDirections(gController);
+                    }),
+                Container(
+                    margin: EdgeInsets.all(10),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WallateScreen(context),
+                            ));
+                      },
+                      child: Icon(Icons.account_balance_wallet_sharp),
+                    ))
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
   Future<void> newLocationUpdate(LatLng latLng) async {
-    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(10,10)), 'assets/images/car1.png');
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(10, 10)), 'assets/images/car2.png');
     var marker = Marker(
         markerId: kMarkerId,
         position: latLng,
-         icon: bitmapIcon ,
+        anchor: Offset(0.5, 0.5),
+        icon: bitmapIcon,
         onTap: () {
           print('Tapped! $latLng');
         });
@@ -427,5 +401,3 @@ class SimpleMarkerAnimationExampleState
     setState(() => markers[kMarkerId] = marker);
   }
 }
-
-

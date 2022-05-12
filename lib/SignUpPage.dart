@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'LoginPage.dart';
 import 'MessagePage.dart';
+import 'SimpleMarkerAnimation.dart';
 
 
 String? usersEmail;
@@ -199,183 +200,145 @@ class _signUpPageState extends State<signUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Flutter Firebase Demo",
-              style: TextStyle(color: Colors.white),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "Flutter Firebase Demo",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black26)),
-                      child: TextFormField(
-                        keyboardType: TextInputType.name,
-                        textInputAction: TextInputAction.next,
-                        controller: _name,
-                        decoration: InputDecoration(
-                            hintText: "enter Name", border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width,
+            body: SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
                         padding: EdgeInsets.all(5),
                         decoration:
                         BoxDecoration(border: Border.all(color: Colors.black26)),
-                        child: Text(usersEmail.toString())/* TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        controller: _email,
-                        decoration: InputDecoration(
-                            hintText: "enter email", border: InputBorder.none),
-                      ),*/
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(5),
-                        width: MediaQuery.of(context).size.width,
-                        decoration:
-                        BoxDecoration(border: Border.all(color: Colors.black26)),
-                        child: Text(usersPassword.toString())/*TextFormField(
-                        controller: _password,
-                        keyboardType: TextInputType.visiblePassword,
-                        textInputAction: TextInputAction.next,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            hintText: "enter Password", border: InputBorder.none),
-                      ),*/
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black26)),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.done,
-                        controller: _mobile,
-                        decoration: InputDecoration(
-                            hintText: "enter Mobile", border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        print("click on check in date");
-                        _selectStartDate(context);
-                      },
-                      child: Container(
-                        height: 45,
-                        // width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
-
+                        child: TextFormField(
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          controller: _name,
+                          decoration: InputDecoration(
+                              hintText: "enter Name", border: InputBorder.none),
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            /*mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,*/
-                            children: [
-                              Text(
-                                'CHECK-IN-DATE',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                // "${MySharedPreferences.instance.getStringValue(Util.TODAY_DATE, currentDate.toString(), myPrefs!)}",
-                                "${todayDate.toLocal()}".split(' ')[0],
-                                // _value.split('')[0],
-                                // textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                            ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(5),
+                          decoration:
+                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          child: Text(usersEmail.toString())/* TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          controller: _email,
+                          decoration: InputDecoration(
+                              hintText: "enter email", border: InputBorder.none),
+                        ),*/
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(5),
+                          width: MediaQuery.of(context).size.width,
+                          decoration:
+                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          child: Text(usersPassword.toString())/*TextFormField(
+                          controller: _password,
+                          keyboardType: TextInputType.visiblePassword,
+                          textInputAction: TextInputAction.next,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: "enter Password", border: InputBorder.none),
+                        ),*/
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black26)),
+                        child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.done,
+                          controller: _mobile,
+                          decoration: InputDecoration(
+                              hintText: "enter Mobile", border: InputBorder.none),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          print("click on check in date");
+                          _selectStartDate(context);
+                        },
+                        child: Container(
+                          height: 45,
+                          // width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26),
+
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: Row(
+                              /*mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,*/
+                              children: [
+                                Text(
+                                  'CHECK-IN-DATE',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  // "${MySharedPreferences.instance.getStringValue(Util.TODAY_DATE, currentDate.toString(), myPrefs!)}",
+                                  "${todayDate.toLocal()}".split(' ')[0],
+                                  // _value.split('')[0],
+                                  // textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(5),
-                      decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black26)),
-                      child: DropdownButton<String>(
-                        focusColor: Colors.white,
-                        value: _choosenCity,
-                        //elevation: 5,
-                        style: TextStyle(color: Colors.white),
-                        iconEnabledColor: Colors.black,
-                        items: <String>[
-                          'Ahmedabad',
-                          'GandhiNagar',
-                          'Vadodara',
-                          'Nadiyad',
-                          'Kutch',
-                          'Junagadh',
-                          'surat',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text(
-                          "Please choose a city",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _choosenCity = value;
-                            print(
-                                "Selected value________" + _choosenCity.toString());
-                          });
-                        },
+                      SizedBox(
+                        height: 15,
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black26)),
+                      Container(
                         width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(5),
+                        decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black26)),
                         child: DropdownButton<String>(
                           focusColor: Colors.white,
-                          value: _choosenGender,
+                          value: _choosenCity,
                           //elevation: 5,
                           style: TextStyle(color: Colors.white),
                           iconEnabledColor: Colors.black,
-                          items: <String>['Male', 'Female']
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: <String>[
+                            'Ahmedabad',
+                            'GandhiNagar',
+                            'Vadodara',
+                            'Nadiyad',
+                            'Kutch',
+                            'Junagadh',
+                            'surat',
+                          ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
@@ -385,7 +348,7 @@ class _signUpPageState extends State<signUpPage> {
                             );
                           }).toList(),
                           hint: Text(
-                            "Please choose Gender",
+                            "Please choose a city",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
@@ -393,68 +356,112 @@ class _signUpPageState extends State<signUpPage> {
                           ),
                           onChanged: (String? value) {
                             setState(() {
-                              _choosenGender = value;
-                              print("Selected value________" +
-                                  _choosenGender.toString());
+                              _choosenCity = value;
+                              print(
+                                  "Selected value________" + _choosenCity.toString());
                             });
                           },
-                        )),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        insertData(
-                            _name.text.toString(),
-                            // _email.text.toString(),
-                            usersEmail.toString(),
-                            // _password.text.toString(),
-                            usersPassword.toString(),
-                            _choosenGender.toString(),
-                            _choosenCity.toString(),
-                            _mobile.text.toString(),
-                            firstPicked.toString());
-                        addData();
-                        bool? isFromMessage = true;
-                        LoginUsingEmailandPassword(_email.text.toString(), _password.text.toString(), context);
-                        printData();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                          // MaterialPageRoute(builder: (context) => homePage(isFromMessage, context,userId.toString(), uEmail.toString())),
-                        );
-
-
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.blue,
-                        child: Text("Submit"),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 15,),
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                      },
-                      child:  Container(
-                        padding: EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.blue,
-                        child: Text("already Registered? CLICK HERE"),
+                      SizedBox(
+                        height: 15,
                       ),
-                    )
-                  ],
+                      Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black26)),
+                          width: MediaQuery.of(context).size.width,
+                          child: DropdownButton<String>(
+                            focusColor: Colors.white,
+                            value: _choosenGender,
+                            //elevation: 5,
+                            style: TextStyle(color: Colors.white),
+                            iconEnabledColor: Colors.black,
+                            items: <String>['Male', 'Female']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Please choose Gender",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _choosenGender = value;
+                                print("Selected value________" +
+                                    _choosenGender.toString());
+                              });
+                            },
+                          )),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          insertData(
+                              _name.text.toString(),
+                              // _email.text.toString(),
+                              usersEmail.toString(),
+                              // _password.text.toString(),
+                              usersPassword.toString(),
+                              _choosenGender.toString(),
+                              _choosenCity.toString(),
+                              _mobile.text.toString(),
+                              firstPicked.toString());
+                          addData();
+                          bool? isFromMessage = true;
+                          LoginUsingEmailandPassword(_email.text.toString(), _password.text.toString(), context);
+                          printData();
+                          /*Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            // MaterialPageRoute(builder: (context) => homePage(isFromMessage, context,userId.toString(), uEmail.toString())),
+                          );*/
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SimpleMarkerAnimationExample()),
+                            // MaterialPageRoute(builder: (context) => homePage(isFromMessage, context,userId.toString(), uEmail.toString())),
+                          );
+                          },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.blue,
+                          child: Text("Submit"),
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                          );
+                        },
+                        child:  Container(
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.blue,
+                          child: Text("already Registered? CLICK HERE"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

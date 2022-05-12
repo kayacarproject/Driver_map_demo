@@ -25,6 +25,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'
 //androidExtensions {
 //    experimental = true
 //}
@@ -51,7 +53,8 @@ android {
         targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-//        ndkVersion = "23.1.7779620"
+        ndkVersion = "23.1.7779620"
+        multiDexEnabled true
     }
 
     buildTypes {
